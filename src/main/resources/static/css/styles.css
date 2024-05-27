@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'Socicon';
+  src:  url('../fonts/socicon.eot');
+  src:  url('../fonts/socicon.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/socicon.woff2') format('woff2'),
+    url('../fonts/socicon.ttf') format('truetype'),
+    url('../fonts/socicon.woff') format('woff'),
+    url('../fonts/socicon.svg#socicon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.text-column {
+  white-space: pre-wrap;
+  margin: 20px;
+  padding: 10px;
+}
+
+.small-wrapper{
+  width: 30%;
+}
+
+[data-icon]:before {
+  font-family: "socicon" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="socicon-"], [class*=" socicon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Socicon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  padding: 8px 15px;
+  border: none;
+  background-color: transparent;
+  color: black; /* Цвет ссылок, соответствующий вашему дизайну */
+  font-size: 16px; /* Размер шрифта, соответствующий вашему дизайну */
+  text-decoration: none; /* Убираем подчеркивание ссылок */
+}
+
+.page-link:hover {
+  text-decoration: underline; /* Подчеркиваем ссылку при наведении */
+}
+
+
