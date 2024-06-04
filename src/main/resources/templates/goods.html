@@ -52,7 +52,10 @@
                         <h3><strong th:text="${product.text}"></strong></h3>
                     </div>
                 </div>
-                <form th:action="'/catalog/'+ ${catalog} + '/' + ${addition} + '/' + ${id} + '/addBasket'" method="post">
+                <form th:action="'/user/basket/add'" method="post">
+                    <input type="hidden" name="catalog" th:value="${catalog}">
+                    <input type="hidden" name="catalog" th:value="${catalog}">
+                    <input type="hidden" name="id" th:value="${id}">
                     <button class="btn item-btn btn-primary display-7"> Добавить в корзину </button>
                 </form>
             </div>

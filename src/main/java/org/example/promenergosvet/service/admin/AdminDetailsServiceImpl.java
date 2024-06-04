@@ -1,4 +1,4 @@
-package org.example.promenergosvet.service;
+package org.example.promenergosvet.service.admin;
 
 import org.example.promenergosvet.entity.Admin;
 import org.example.promenergosvet.repo.AdminRepo;

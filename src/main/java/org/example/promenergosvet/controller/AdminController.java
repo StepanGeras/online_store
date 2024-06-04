@@ -1,8 +1,7 @@
 package org.example.promenergosvet.controller;
 
-import lombok.AllArgsConstructor;
 import org.example.promenergosvet.entity.Admin;
-import org.example.promenergosvet.service.AdminService;
+import org.example.promenergosvet.service.admin.AdminService;
 import org.example.promenergosvet.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

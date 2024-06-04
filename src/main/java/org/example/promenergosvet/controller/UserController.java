@@ -1,21 +1,24 @@
 package org.example.promenergosvet.controller;
 
-import lombok.AllArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 import org.example.promenergosvet.entity.Basket;
 import org.example.promenergosvet.entity.User;
 import org.example.promenergosvet.service.BasketService;
-import org.example.promenergosvet.service.UserService;
+import org.example.promenergosvet.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes("user")
 public class UserController {
+
+    @Autowired
+    private HttpSession httpSession;
 
     @Autowired
     private UserService userService;
@@ -23,41 +26,61 @@ public class UserController {
     @Autowired
     private BasketService basketService;
 
+    @GetMapping("/reg")
+    public String login(Model model) {
+
+        model.addAttribute("user", new User());
+
+        return "regUser";
+
+    }
+
     @PostMapping("/reg")
-    public String registerUser(@ModelAttribute User user,
-                               Model model,
-                               @RequestParam(name = "catalog") String catalog,
-                               @RequestParam(name = "addition") String addition) {
+    public String registerUser(@ModelAttribute User user) {
 
-        User findUser = userService.findBySurname(user.getSurname());
+        User newUser = userService.save(user);
+        newUser.setBasket(new Basket());
+        httpSession.setAttribute("user", newUser);
 
-        if (findUser == null) {
-            userService.save(user);
-        }
+        return "redirect:/catalog";
 
-        String encodedCatalog = URLEncoder.encode(catalog, StandardCharsets.UTF_8);
-        String encodedAddition = URLEncoder.encode(addition, StandardCharsets.UTF_8);
-        user.setBasket(new Basket());
-        model.addAttribute("user", user);
-        return "redirect:/catalog/" + encodedCatalog + "/" + encodedAddition;
     }
 
     @GetMapping("/basket")
-    public String basket(@SessionAttribute("user") User user, Model model) {
+    public String basket(Model model) {
 
-        if (user.getSurname() == null) {
-            return "redirect:/reg";
-        }
+        User user = (User) httpSession.getAttribute("user");
 
         model.addAttribute("basket", user.getBasket().getItems());
         model.addAttribute("user", user);
         return "basket";
     }
 
+    @PostMapping("/basket/add")
+    public String addBasket(@RequestParam (name = "catalog") String catalog,
+                            @RequestParam (name = "addition") String addition,
+                            @RequestParam (name = "id") Long id
+                            ) {
+
+        User user = (User) httpSession.getAttribute("user");
+
+        Basket basket = user.getBasket();
+        Basket basket1 = basketService.addToCart(id, basket);
+        user.setBasket(basket1);
+
+        User newUser = userService.findBySurname(user.getSurname());
+        httpSession.setAttribute("user", newUser);
+        String encodedCatalog = URLEncoder.encode(catalog, StandardCharsets.UTF_8);
+        String encodedAddition = URLEncoder.encode(addition, StandardCharsets.UTF_8);
+        return "redirect:/catalog/" + encodedCatalog + "/" + encodedAddition;
+
+    }
+
     @PostMapping("/basket/delete")
     public String deleteBasket(@RequestParam (name = "productId") Long id,
-                               Model model,
-                               @SessionAttribute("user") User user) {
+                               Model model) {
+
+        User user = (User) httpSession.getAttribute("user");
 
         Basket basket = basketService.removeFromCart(user.getBasket().getId(), id);
         user.setBasket(basket);
@@ -67,9 +90,14 @@ public class UserController {
 
     }
 
-//    @PostMapping("basket/design")
-//    public String designBasket(@SessionAttribute("user") User user, Model model) {
-//
-//    }
+    @PostMapping("/basket/design")
+    public String designBasket() {
+
+        User user = (User) httpSession.getAttribute("user");
+
+        basketService.saveBasketId(user);
+
+        return "redirect:/";
+    }
 
 }

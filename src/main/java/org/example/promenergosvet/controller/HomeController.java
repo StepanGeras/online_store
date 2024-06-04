@@ -3,7 +3,9 @@ package org.example.promenergosvet.controller;
 import lombok.AllArgsConstructor;
 import org.example.promenergosvet.entity.*;
 import org.example.promenergosvet.service.*;
+import org.example.promenergosvet.service.user.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
 @AllArgsConstructor
-@SessionAttributes("user")
 public class HomeController {
 
     private final HomeService homeService;
@@ -31,6 +33,8 @@ public class HomeController {
 
     private final UserService userService;
 
+    private final HttpSession httpSession;
+
     @GetMapping("/")
     public String home(Model model, @RequestParam(defaultValue = "1") int page) {
 
@@ -39,12 +43,6 @@ public class HomeController {
 
         model.addAttribute("page", catalogPage.getSize());
         model.addAttribute("catalog", catalogPage);
-        User user = (User) model.getAttribute("user");
-
-        if (user == null) {
-            model.addAttribute("user", new User());
-
-        }
 
         return "home";
     }
@@ -123,31 +121,7 @@ public class HomeController {
         model.addAttribute("addition", addition);
         model.addAttribute("id", id);
 
-
         return "goods";
-    }
-
-    @PostMapping("/catalog/{catalog}/{addition}/{id}/addBasket")
-    public String basket (@PathVariable (name = "addition") String addition,
-                          @PathVariable (name = "catalog") String catalog,
-                          @PathVariable (name = "id") Long id,
-                          @SessionAttribute("user") User user,
-                          Model model){
-
-        if (user.getSurname() == null) {
-            model.addAttribute("catalog", catalog);
-            model.addAttribute("addition", addition);
-            model.addAttribute("user", user);
-            return "regUser";
-        } else {
-            Basket basket = user.getBasket();
-            Basket basket1 = basketService.addToCart(id, basket);
-            user.setBasket(basket1);
-            model.addAttribute("user", user);
-            String encodedCatalog = URLEncoder.encode(catalog, StandardCharsets.UTF_8);
-            String encodedAddition = URLEncoder.encode(addition, StandardCharsets.UTF_8);
-            return "redirect:/catalog/" + encodedCatalog + "/" + encodedAddition;
-        }
     }
 
 

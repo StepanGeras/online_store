@@ -1,12 +1,8 @@
-package org.example.promenergosvet.service;
+package org.example.promenergosvet.service.admin;
 
-import lombok.AllArgsConstructor;
 import org.example.promenergosvet.entity.Admin;
 import org.example.promenergosvet.repo.AdminRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

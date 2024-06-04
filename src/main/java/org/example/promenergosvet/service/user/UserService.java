@@ -1,6 +1,5 @@
-package org.example.promenergosvet.service;
+package org.example.promenergosvet.service.user;
 
-import org.example.promenergosvet.entity.Basket;
 import org.example.promenergosvet.entity.User;
 import org.example.promenergosvet.repo.BasketRepo;
 import org.example.promenergosvet.repo.UserRepo;
@@ -30,7 +29,7 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public void save(User user) {
-        userRepo.save(user);
+    public User save(User user) {
+        return userRepo.save(user);
     }
 }

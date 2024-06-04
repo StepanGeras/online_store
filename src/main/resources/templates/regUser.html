@@ -38,11 +38,9 @@
 <div>
     <form th:action="@{/user/reg}" th:object="${user}" method="post">
         <label>
-            <input type="text" th:field="*{name}" placeholder="name">
-            <input type="text" th:field="*{surname}" placeholder="surname">
-            <input type="text" th:field="*{telephone}" placeholder="telephone" value="+375">
-            <input type="hidden" name="catalog" th:value="${catalog}">
-            <input type="hidden" name="addition" th:value="${addition}">
+            <input type="text" id="name" placeholder="name" th:field="*{name}" required>
+            <input type="text" id="surname" placeholder="surname" th:field="*{surname}" required>
+            <input type="text" id="telephone" placeholder="telephone" th:field="*{telephone}" value="+375" required>
         </label>
         <button class="btn item-btn btn-primary display-7"> Зарегистрироваться </button>
     </form>
