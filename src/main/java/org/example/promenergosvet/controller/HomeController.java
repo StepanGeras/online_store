@@ -1,11 +1,16 @@
 package org.example.promenergosvet.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.promenergosvet.entity.*;
+import org.example.promenergosvet.entity.product.Addition;
+import org.example.promenergosvet.entity.product.Catalog;
+import org.example.promenergosvet.entity.product.Product;
 import org.example.promenergosvet.service.*;
+import org.example.promenergosvet.service.product.AdditionService;
+import org.example.promenergosvet.service.product.CatalogService;
+import org.example.promenergosvet.service.product.ProductService;
+import org.example.promenergosvet.service.basket.BasketService;
 import org.example.promenergosvet.service.user.UserService;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +34,6 @@ public class HomeController {
 
     private final CatalogService catalogService;
 
-    private final BasketService basketService;
-
-    private final UserService userService;
-
-    private final HttpSession httpSession;
-
     @GetMapping("/")
     public String home(Model model, @RequestParam(defaultValue = "1") int page) {
 
@@ -56,7 +55,7 @@ public class HomeController {
         model.addAttribute("productList", currentPage);
         model.addAttribute("totalPages", currentPage.getTotalPages());
         model.addAttribute("catalog", catalog);
-        return "catalog";
+        return "product/catalog";
     }
 
     @GetMapping("/catalog/{catalog}")
@@ -77,7 +76,7 @@ public class HomeController {
             model.addAttribute("catalog", catalog);
             model.addAttribute("addition", additions);
 
-            return "addition";
+            return "product/addition";
         }
 
     }
@@ -107,7 +106,7 @@ public class HomeController {
         model.addAttribute("totalPages", productPage.getTotalPages());
         model.addAttribute("catalog", newProduct);
 
-        return "product";
+        return "product/product";
     }
 
     @GetMapping("/catalog/{catalog}/{addition}/{id}")
@@ -121,7 +120,7 @@ public class HomeController {
         model.addAttribute("addition", addition);
         model.addAttribute("id", id);
 
-        return "goods";
+        return "product/goods";
     }
 
 

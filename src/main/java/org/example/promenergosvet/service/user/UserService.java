@@ -1,12 +1,13 @@
 package org.example.promenergosvet.service.user;
 
-import org.example.promenergosvet.entity.User;
-import org.example.promenergosvet.repo.BasketRepo;
-import org.example.promenergosvet.repo.UserRepo;
+import org.example.promenergosvet.entity.user.User;
+import org.example.promenergosvet.repo.user.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -15,10 +16,10 @@ public class UserService {
     private UserRepo userRepo;
 
     @Autowired
-    private BasketRepo basketRepo;
+    private PasswordEncoder passwordEncoder;
 
-    public User findBySurname(String surname) {
-        return userRepo.findBySurname(surname);
+    public User findByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
 
 //    public void save(User user) {
@@ -29,7 +30,9 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public User save(User user) {
-        return userRepo.save(user);
+    public void save(User user) {
+        user.setRoles(Set.of(User.Role.ROLE_USER));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepo.save(user);
     }
 }

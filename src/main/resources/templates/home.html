@@ -5,8 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <meta name="description" content="">
-  
-  
+
   	<title>ПромЭнергоСвет</title>
 	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
@@ -14,6 +13,7 @@
 	<link rel="stylesheet" th:href="@{/css/animate.css}">
 	<link rel="stylesheet" th:href="@{/css/styles.css}">
 	<link rel="stylesheet" th:href="@{/css/style_theme.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
 	<link rel="preload" as="style" th:href="@{/css/mbr-additional.css?v=k6emG3}"><link th:href="@{/css/mbr-additional.css?v=k6emG3}" type="text/css" rel="stylesheet">
@@ -30,9 +30,18 @@
     <div class="row">
       <div class="col-lg-4 side-features">
 		<div class="image-wrapper mb-4">
-			<img class="w-100" th:src="@{/static/images/logo.png}" alt="">
+			<form method="get" th:action="@{/}">
+				<button>
+					<img class="w-100" th:src="@{/static/images/logo.png}" alt="">
+				</button>
+			</form>
 		</div>
-	</div>
+	  </div>
+		<div class="col-lg-4 offset-lg-4 d-flex justify-content-end align-items-center">
+			<a href="/basket" class="text-decoration-none text-dark">
+				<i class="fas fa-shopping-cart fa-2x"></i>
+			</a>
+		</div>
     </div>
   </div>
 </section>

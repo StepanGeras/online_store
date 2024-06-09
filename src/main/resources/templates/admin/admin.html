@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title>Админ панель</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
+  <link rel="stylesheet" th:href="@{/css/animate.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/style_theme.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+  <link rel="preload" as="style" th:href="@{/css/mbr-additional.css?v=k6emG3}"><link th:href="@{/css/mbr-additional.css?v=k6emG3}" type="text/css" rel="stylesheet">
+
+
+</head>
+<body>
+
+<section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
+
+
+  <div class="mbr-overlay" style="opacity: 0; background-color: rgb(0, 0, 0);"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 side-features">
+        <div class="image-wrapper mb-4">
+          <form method="get" th:action="@{/static}">
+            <button>
+              <img class="w-100" th:src="@{/images/logo.png}" alt="">
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-bs-version="5.1" class="features4 start cid-uaTbi5nihM" id="features04-1p">
+  <div class="container">
+    <div class="row">
+      <div class="item features-image col-12 col-md-6 col-lg-4 active" th:each="user :${users}">
+        <div class="item-wrapper">
+          <div class="item-content">
+            <h5 class="item-title mbr-fonts-style display-5" style="font-size: x-large;">
+              <strong th:text="${user.username}"></strong>
+              <strong th:text="${user.telephone}"></strong>
+            </h5>
+            <div class="mbr-section-btn item-footer">
+              <form th:action="'/admin/' + ${user.username}" method="get">
+                <button class="btn item-btn btn-primary display-7"> Выбрать </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/smooth-scroll.js}"></script>
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/script_theme.js}"></script>
+</body>
+</html>

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,31 +18,33 @@ public class UserSecurityConfig {
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public SecurityFilterChain catalogSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .securityMatcher("/catalog/**")
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/catalog/**").permitAll()
-                )
-                .httpBasic(Customizer.withDefaults());
-        return http.build();
-    }
-
-    @Bean
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/user/**")
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/reg").permitAll()
-                        .requestMatchers("/user/basket", "/user/basket/**").authenticated()
+                        .requestMatchers("/basket/design").authenticated()
+                        .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/basket", true)
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/user/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
                 .userDetailsService(userDetailsService)
                 .httpBasic(Customizer.withDefaults());
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }
