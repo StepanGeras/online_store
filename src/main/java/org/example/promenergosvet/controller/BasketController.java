@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class BasketController {
@@ -52,8 +54,7 @@ public class BasketController {
     @PostMapping("/basket/add")
     public String addBasket(@RequestParam(name = "catalog") String catalog,
                             @RequestParam (name = "addition") String addition,
-                            @RequestParam (name = "id") Long id
-    ) {
+                            @RequestParam (name = "id") Long id) {
 
         Basket basket = (Basket) httpSession.getAttribute("basket");
         if (basket == null) {
@@ -65,9 +66,13 @@ public class BasketController {
 
         httpSession.setAttribute("basket", basket);
 
-        String encodedCatalog = URLEncoder.encode(catalog, StandardCharsets.UTF_8);
-        String encodedAddition = URLEncoder.encode(addition, StandardCharsets.UTF_8);
-        return "redirect:/catalog/" + encodedCatalog + "/" + encodedAddition;
+        if (addition.isEmpty()) {
+            return "redirect:/catalog";
+        } else {
+            String encodedCatalog = URLEncoder.encode(catalog, StandardCharsets.UTF_8);
+            String encodedAddition = URLEncoder.encode(addition, StandardCharsets.UTF_8);
+            return "redirect:/catalog/" + encodedCatalog + "/" + encodedAddition;
+        }
 
     }
 
@@ -95,11 +100,28 @@ public class BasketController {
 
         Basket basket = (Basket) httpSession.getAttribute("basket");
 
-        basket.setUser(user);
+        List<Basket> basketList = basketService.getAllBasketByUserId(user.getId());
+
+        for (Basket bas : basketList) {
+            if (!bas.getRoles().contains(Basket.Role.ROLE_ISSUED)) {
+                List<BasketItem> basketItem = basket.getItems();
+                Basket basket1 = basketService.getBasketByUserId(user.getId());
+
+                for (BasketItem item : basketItem) {
+                    item.setBasket(basket1);
+                    basketService.saveBasketItem(item);
+                }
+                return "redirect:/";
+            }
+        }
 
         for (BasketItem basketItem : basket.getItems()) {
             basketItem.setBasket(basket);
         }
+
+        basket.setUser(user);
+
+        basket.setRoles(Set.of(Basket.Role.ROLE_DESIGN));
 
         basketService.save(basket);
 

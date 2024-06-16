@@ -21,13 +21,14 @@ public class UserSecurityConfig {
     public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/basket/design").authenticated()
+                        .requestMatchers("/basket/design", "/user/page", "/user/setting").authenticated()
                         .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/user/login")
-                        .defaultSuccessUrl("/basket", true)
+                        .defaultSuccessUrl("/", true)
+                        .usernameParameter("email")
                         .permitAll()
                 )
                 .logout(logout -> logout

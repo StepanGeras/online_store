@@ -15,5 +15,7 @@ public interface AdditionRepo extends JpaRepository<Addition, Long> {
     @Query ("select a.id from Addition a where a.ancillary = :ancillary")
     Long findIdByAncillary(@Param("ancillary") String ancillary);
 
+    Addition findAdditionByCatalogId(Long id);
 
+    Addition findAdditionByAncillary(String ancillary);
 }

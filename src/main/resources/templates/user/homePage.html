@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title th:text="${user.username}"></title>
+    <meta name="description" content="">
+
+    <title>ПромЭнергоСвет</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -83,16 +85,14 @@
 </div>
 
 <section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
-
-
     <div class="mbr-overlay" style="opacity: 0; background-color: rgb(0, 0, 0);"></div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4 side-features">
                 <div class="image-wrapper mb-4">
-                    <form method="get" th:action="@{/static}">
+                    <form method="get" th:action="@{/}">
                         <button>
-                            <img class="w-100" th:src="@{/images/logo.png}" alt="">
+                            <img class="w-100" th:src="@{/static/images/logo.png}" alt="">
                         </button>
                     </form>
                 </div>
@@ -101,41 +101,45 @@
     </div>
 </section>
 
-<section data-bs-version="5.1" class="features4 start cid-uaTbi5nihM" id="features04-1p">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 content-head">
-                <div class="mbr-section-head mb-5">
-                    <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-                        <strong th:text="${user.username}"></strong>
-                        <br>
-                        <strong th:text="${user.telephone}"></strong>
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row justify-content-center">
-                <div class="item features-image col-12 col-md-6 col-lg-3 active" th:each="product : ${basket}">
-                    <div class="item-wrapper">
-                        <div class="item-img text-center">
-                            <img th:src="${product.product.image}" class="img-catalog" style="max-width: 100px; max-height: 100px; display: inline-block;">
-                        </div>
-                        <div class="item-content">
-                            <h5 class="item-title mbr-fonts-style display-5" style="font-size: x-large;"><strong th:text="${product.product.name}"></strong></h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="mbr-section-btn item-footer">
-                    <form th:action="'/admin/' + ${user.username}" method="post">
-                        <button class="btn item-btn btn-primary display-7"> Оформить </button>
-                    </form>
-                </div>
-            </div>
+<section class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>
+            Профиль пользователя
+            <a href="/user/setting" class="float-end ms-3 display-5">
+                <i class="fas fa-cog" style="color: gray;"></i>
+            </a>
+        </h1>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                Имя: <span th:text="${user.name}"></span>
+            </h5>
+            <h5 class="card-title">
+                Фамилия: <span th:text="${user.username}"></span>
+            </h5>
+            <h5 class="card-title">
+                Телефон: <span th:text="${user.telephone}"></span>
+            </h5>
         </div>
     </div>
-</section>
 
+    <h2>История покупок</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Название продукта</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${basket}">
+            <td th:text="${#dates.format(order.date, 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${order.product.name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/smooth-scroll.js}"></script>

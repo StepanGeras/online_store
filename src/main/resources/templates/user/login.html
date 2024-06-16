@@ -1,27 +1,232 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <meta name="description" content="">
+
+    <title>ПромЭнергоСвет</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/style_theme.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+    <link rel="preload" as="style" th:href="@{/css/mbr-additional.css?v=k6emG3}"><link th:href="@{/css/mbr-additional.css?v=k6emG3}" type="text/css" rel="stylesheet">
+
+
 </head>
 <body>
-<div class="form-container">
-    <form th:action="@{/user/login}" method="post">
-        <h1>Login</h1>
 
-        <label for="username">Логин:</label>
-        <input type="text" id="username" name="username" required/>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#about">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/catalog">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#delivery">Доставка и оплата</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contacts">Контакты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/basket">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#search">
+                        <i class="fas fa-search"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required/>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <form method="get" th:action="@{/user/reg}">
-        <button th:text="'Зарегистрироваться'"></button>
-    </form>
-
+<div class="modal fade" id="search" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" style="height: 350px">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Поиск товаров</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="GET" action="/search">
+                <div class="modal-body">
+                    <div class="mb-1">
+                        <label for="searchQuery" class="form-label">Введите ключевое слово</label>
+                        <input type="text" class="form-control" id="searchQuery" name="search" placeholder="Поиск..." aria-label="Поиск...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Искать</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
+
+
+    <div class="mbr-overlay" style="opacity: 0; background-color: rgb(0, 0, 0);"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 side-features">
+                <div class="image-wrapper mb-4">
+                    <form method="get" th:action="@{/}">
+                        <button>
+                            <img class="w-100" th:src="@{/static/images/logo.png}" alt="">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" th:action="@{/user/login}">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Почта</label>
+                            <input type="text" class="form-control" id="email" name="email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                            <a class="btn btn-primary" th:href="@{/user/forgot-password}">Забыли пароль</a>
+                            <a class="btn btn-primary" th:href="@{/user/reg}">Зарегистрироваться</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="contacts">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 content-head">
+                <div class="mb-5">
+                    <h5 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                        <strong>Контакты</strong></h5>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-instagram socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>Instagram</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-twitch socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>Twitch</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-twitter socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>Twitter</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-youtube socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>YouTube</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-tiktok socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>TikTol</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+                <div class="item-wrapper">
+                    <span class="mbr-iconfont m-auto socicon-facebook socicon"></span>
+                    <div class="card-box">
+                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
+                            <strong>Facebook</strong>
+                        </h4>
+                        <h5 class="card-text mbr-fonts-style display-7">
+                            Lorem ipsum dolor sit amet.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/smooth-scroll.js}"></script>
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/script_theme.js}"></script>
 </body>
 </html>
+

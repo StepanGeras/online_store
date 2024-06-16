@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,10 +21,76 @@
 
 </head>
 <body>
-  
-<section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
-  
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="/">Главная</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#about">О нас</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/catalog">Каталог</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#delivery">Доставка и оплата</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#guarantee">Гарантии и возврат</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#contacts">Контакты</a>
+				</li>
+				<li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+					<a class="nav-link" href="/user/logout">Выйти из профиля</a>
+				</li>
+				<li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+					<a href="/user/page" class="nav-link">Добро пожаловать, <span th:text="${#authentication.name}">User</span>!</a>
+				</li>
+				<li class="nav-item" th:unless="${#authorization.expression('isAuthenticated()')}">
+					<a class="nav-link" href="/user/login">Логин</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/basket">
+						<i class="fas fa-shopping-cart"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#search">
+						<i class="fas fa-search"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div class="modal fade" id="search" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" style="height: 350px">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="searchModalLabel">Поиск товаров</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form method="GET" action="/search">
+				<div class="modal-body">
+					<div class="mb-1">
+						<label for="searchQuery" class="form-label">Введите ключевое слово</label>
+						<input type="text" class="form-control" id="searchQuery" name="search" placeholder="Поиск..." aria-label="Поиск...">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Искать</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
   <div class="mbr-overlay" style="opacity: 0; background-color: rgb(0, 0, 0);"></div>
   <div class="container-fluid">
     <div class="row">
@@ -37,16 +103,11 @@
 			</form>
 		</div>
 	  </div>
-		<div class="col-lg-4 offset-lg-4 d-flex justify-content-end align-items-center">
-			<a href="/basket" class="text-decoration-none text-dark">
-				<i class="fas fa-shopping-cart fa-2x"></i>
-			</a>
-		</div>
     </div>
   </div>
 </section>
 
-<section data-bs-version="5.1" class="image08 cid-uaT96yEy4r" id="image08-1m">
+<section data-bs-version="5.1" class="image08 cid-uaT96yEy4r" id="about">
 
   <div class="container">
     <div class="row justify-content-center">
@@ -54,7 +115,7 @@
         <div class="col-12 col-md-12">
           <h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2"><strong>О нас</strong></h5>
           <h6 class="mbr-section-subtitle mbr-fonts-style mt-0 mb-4 display-7">
-			  Уже более 25 лет руководство компании заботиться о качестве поставляемой продукции в Беларуси.
+			  Уже более 25 лет руководство компании заботится о качестве поставляемой продукции в Беларуси.
 			  За плечами много масштабных проектов.
 		  </h6>
         </div>
@@ -66,7 +127,7 @@
 						<div class="carousel-item active">
 							<div class="container text-center">
 								<div class="row align-items-center">
-									<img src="../static/images/bison.jpg" class="d-block w-100" alt="...">
+									<img src="../static/images/home/bison.jpg" class="d-block w-100" alt="...">
 								</div>
 								<div class="w-100"></div>
 								<div class="">
@@ -78,7 +139,7 @@
 						<div class="carousel-item" th:each="homeImg : ${home}">
 							<div class="container text-center">
 								<div class="row align-items-center">
-									<img th:src="'../static/images/' + ${homeImg.image}" class="d-block w-100" alt="...">
+									<img th:src="'../static/images/home/' + ${homeImg.image}" class="d-block w-100" alt="...">
 								</div>
 								<div class="w-100"></div>
 								<div class="">
@@ -99,14 +160,13 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
   </div>
 </section>
 
 <section data-bs-version="5.1" class="features4 start cid-uaTbi5nihM" id="features04-1p">
-	
-	
+
+
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-12 content-head">
@@ -149,10 +209,10 @@
 	</div>
 </section>
 
-<section data-bs-version="5.1" class="features037 cid-ub89at04ui" id="features037-1u">
-	
-	
-	
+<section data-bs-version="5.1" class="features037 cid-ub89at04ui" id="delivery">
+
+
+
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-lg-4">
@@ -160,7 +220,7 @@
 					<h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2"><strong>Доставка и оплата</strong></h5>
 					<h6 class="mbr-section-subtitle mbr-fonts-style mt-0 mb-4 display-7">
 						With a spirit of innovation, we navigate uncharted territories, exploring new ideas, technologies, and approaches.</h6>
-					
+
 				</div>
 			</div>
 
@@ -168,7 +228,7 @@
 				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb active">
 					<div class="item-wrapper">
 						<div class="item-content align-left">
-							
+
 							<h5 class="card-title mbr-fonts-style display-5">
 								<strong>Innovation</strong>
 							</h5>
@@ -176,7 +236,7 @@
 								Discover the future of creativity through our solutions. We pioneer cutting-edge
 								techniques,
 								pushing boundaries to redefine creative possibilities.</p>
-							
+
 						</div>
 
 					</div>
@@ -184,7 +244,7 @@
 				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
 					<div class="item-wrapper">
 						<div class="item-content align-left">
-							
+
 							<h5 class="card-title mbr-fonts-style display-5">
 								<strong>Support</strong>
 							</h5>
@@ -192,7 +252,7 @@
 								Our support system ensures you're never alone on your journey, offering guidance,
 								resources,
 								and solutions when you need them.</p>
-							
+
 						</div>
 
 					</div>
@@ -200,14 +260,14 @@
 				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
 					<div class="item-wrapper">
 						<div class="item-content align-left">
-							
+
 							<h5 class="card-title mbr-fonts-style display-5">
 								<strong>Quality</strong>
 							</h5>
 							<p class="card-text mbr-fonts-style display-7">
 							Elevate your standards with our commitment to uncompromising quality. Each creation embodies precision, durability, and timeless excellence.</p>
 
-							
+
 						</div>
 
 					</div>
@@ -215,7 +275,7 @@
 				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
 					<div class="item-wrapper">
 						<div class="item-content align-left">
-							
+
 							<h5 class="card-title mbr-fonts-style display-5">
 								<strong>Creativity</strong>
 							</h5>
@@ -224,7 +284,7 @@
 								express
 								your unique artistic vision.</p>
 
-							
+
 						</div>
 
 					</div>
@@ -235,16 +295,16 @@
 	</div>
 </section>
 
-<section data-bs-version="5.1" class="features031 cid-ub8bxjxswK" id="features031-22">
-    
-    
-    
+<section data-bs-version="5.1" class="features031 cid-ub8bxjxswK" id="guarantee">
+
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 content-head mb-5">
                 <h1 class="mbr-section-title mbr-fonts-style mb-0 display-2">
                     <strong>Гарантии и возврат</strong><strong><br></strong></h1>
-                
+
             </div>
         </div>
         <div class="row justify-content-center  blockContent">
@@ -275,7 +335,7 @@
     </div>
 </section>
 
-<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="social02-21">
+<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="contacts">
 
 	<div class="container">
 		<div class="row justify-content-center">
@@ -283,7 +343,7 @@
 				<div class="mb-5">
 					<h5 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
 						<strong>Контакты</strong></h5>
-					
+
 				</div>
 			</div>
 		</div>

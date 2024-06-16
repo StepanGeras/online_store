@@ -15,16 +15,21 @@ public class AdditionService  {
         this.additionRepo = additionRepo;
     }
 
-    public List<Addition> findAdditionByCatalogId(Long catalogId) {
+    public List<Addition> findAllAdditionByCatalogId(Long catalogId) {
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
         return additionRepo.findAllByCatalogId(catalogId, sort);
-
     }
-
 
     public Long findIdByAncillary(String addition) {
-
         return additionRepo.findIdByAncillary(addition);
-
     }
+
+    public Addition findAdditionByCatalogId(Long catalogId) {
+        return additionRepo.findAdditionByCatalogId(catalogId);
+    }
+
+    public Addition findAdditionByAncillary(String ancillary) {
+        return additionRepo.findAdditionByAncillary(ancillary);
+    }
+
 }

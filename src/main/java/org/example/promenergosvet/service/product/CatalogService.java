@@ -22,5 +22,9 @@ public class CatalogService {
         return catalogRepo.findAll(pageable);
     }
 
+    public Long findIdByName(String name) {
+        return catalogRepo.findIdByName(name);
+    }
+
 }
 

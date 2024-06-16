@@ -8,8 +8,6 @@ import org.example.promenergosvet.service.*;
 import org.example.promenergosvet.service.product.AdditionService;
 import org.example.promenergosvet.service.product.CatalogService;
 import org.example.promenergosvet.service.product.ProductService;
-import org.example.promenergosvet.service.basket.BasketService;
-import org.example.promenergosvet.service.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -63,7 +60,7 @@ public class HomeController {
                        Model model,
                        @RequestParam(name = "idCatalog", required = false) Long idCatalog) {
 
-        List<Addition> additions = additionService.findAdditionByCatalogId(idCatalog);
+        List<Addition> additions = additionService.findAllAdditionByCatalogId(idCatalog);
 
         if (additions.size() == 1) {
 
@@ -123,5 +120,27 @@ public class HomeController {
         return "product/goods";
     }
 
+    @GetMapping("/search")
+    public String search(Model model,
+                         @RequestParam(name = "search") String search) {
+        List<Product> productPage = productService.searchByNameOrText(search);
+
+        model.addAttribute("productList", productPage);
+        model.addAttribute("addition", null);
+        model.addAttribute("catalog", search);
+
+        return "product/product";
+
+    }
+
+    @GetMapping("/search/{id}")
+    public String search(@PathVariable Long id, Model model) {
+
+        model.addAttribute("product", productService.getProductById(id));
+        model.addAttribute("id", id);
+
+        return "product/goods";
+
+    }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -27,6 +29,18 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         return productRepo.findById(id).orElse(null);
+    }
+
+    public void save(Product product) {
+        productRepo.save(product);
+    }
+
+    public void deleteProductById(Long id) {
+        productRepo.deleteById(id);
+    }
+
+    public List<Product> searchByNameOrText(String keyword) {
+        return productRepo.findByNameContainingIgnoreCaseOrTextContainingIgnoreCase(keyword, keyword);
     }
 
 }

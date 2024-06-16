@@ -19,6 +19,17 @@
   padding: 10px;
 }
 
+.navbar-nav {
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.nav-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .small-wrapper{
   width: 30%;
 }

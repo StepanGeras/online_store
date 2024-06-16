@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Converter
-public class RoleSetConverter implements AttributeConverter<Set<User.Role>, String> {
+public class UserRoleSetConverter implements AttributeConverter<Set<User.Role>, String> {
 
     @Override
     public String convertToDatabaseColumn(Set<User.Role> attribute) {

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title th:text="${user.username}"></title>
+    <title>Админ панель</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -83,8 +83,6 @@
 </div>
 
 <section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
-
-
     <div class="mbr-overlay" style="opacity: 0; background-color: rgb(0, 0, 0);"></div>
     <div class="container-fluid">
         <div class="row">
@@ -101,41 +99,23 @@
     </div>
 </section>
 
-<section data-bs-version="5.1" class="features4 start cid-uaTbi5nihM" id="features04-1p">
+<section class="my-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 content-head">
-                <div class="mbr-section-head mb-5">
-                    <h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-                        <strong th:text="${user.username}"></strong>
-                        <br>
-                        <strong th:text="${user.telephone}"></strong>
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row justify-content-center">
-                <div class="item features-image col-12 col-md-6 col-lg-3 active" th:each="product : ${basket}">
-                    <div class="item-wrapper">
-                        <div class="item-img text-center">
-                            <img th:src="${product.product.image}" class="img-catalog" style="max-width: 100px; max-height: 100px; display: inline-block;">
-                        </div>
-                        <div class="item-content">
-                            <h5 class="item-title mbr-fonts-style display-5" style="font-size: x-large;"><strong th:text="${product.product.name}"></strong></h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="mbr-section-btn item-footer">
-                    <form th:action="'/admin/' + ${user.username}" method="post">
-                        <button class="btn item-btn btn-primary display-7"> Оформить </button>
-                    </form>
-                </div>
+            <div class="col-md-8 d-flex justify-content-between">
+                <form method="get" th:action="@{/admin/catalog}">
+                    <button class="btn btn-primary btn-lg">Добавить товар</button>
+                </form>
+                <form method="get" th:action="@{/admin/delete/catalog}">
+                    <button class="btn btn-primary btn-lg">Удалить товар</button>
+                </form>
+                <form method="get" th:action="@{/admin/user}">
+                    <button class="btn btn-primary btn-lg">Оформление покупателей</button>
+                </form>
             </div>
         </div>
     </div>
 </section>
-
 
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/smooth-scroll.js}"></script>

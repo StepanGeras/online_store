@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <title>Админ панель</title>
+  <title>Пользователи</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
   <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -19,6 +19,68 @@
 
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/">Главная</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/catalog">Каталог</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#delivery">Доставка и оплата</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#contacts">Контакты</a>
+        </li>
+        <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+          <a class="nav-link" href="/user/logout">Выйти из профиля</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/basket">
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#search">
+            <i class="fas fa-search"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="modal fade" id="search" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" style="height: 350px">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">Поиск товаров</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="GET" action="/search">
+        <div class="modal-body">
+          <div class="mb-1">
+            <label for="searchQuery" class="form-label">Введите ключевое слово</label>
+            <input type="text" class="form-control" id="searchQuery" name="search" placeholder="Поиск..." aria-label="Поиск...">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Искать</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <section data-bs-version="5.1" class="header18 cid-uaT5Shj9HK mbr-parallax-background" id="header18-1k">
 
@@ -50,7 +112,7 @@
               <strong th:text="${user.telephone}"></strong>
             </h5>
             <div class="mbr-section-btn item-footer">
-              <form th:action="'/admin/' + ${user.username}" method="get">
+              <form th:action="'/admin/user/' + ${user.username}" method="get">
                 <button class="btn item-btn btn-primary display-7"> Выбрать </button>
               </form>
             </div>

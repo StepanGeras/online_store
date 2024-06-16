@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <meta name="description" content="">
+
+  <title>Настройки пользователя</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
+  <link rel="stylesheet" th:href="@{/css/animate.css}">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" th:href="@{/css/style_theme.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"></noscript>
+  <link rel="preload" as="style" th:href="@{/css/mbr-additional.css?v=k6emG3}"><link th:href="@{/css/mbr-additional.css?v=k6emG3}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/">Главная</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/catalog">Каталог</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#delivery">Доставка и оплата</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/#contacts">Контакты</a>
+        </li>
+        <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+          <a class="nav-link" href="/user/logout">Выйти из профиля</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/basket">
+            <i class="fas fa-shopping-cart"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>
+      Настройки пользователя
+      <a href="/user/page" class="float-end ms-3 display-5">
+        <i class="fas fa-arrow-left" style="color: gray;"></i> Назад
+      </a>
+      <h6 th:text="${error}" style="color: red;"></h6>
+    </h1>
+  </div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <form method="post" th:action="@{/user/setting}">
+        <div class="mb-3">
+          <label for="name" class="form-label">Имя</label>
+          <input type="text" class="form-control" id="name" name="name" th:value="${user.name}" required>
+        </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">Фамилия</label>
+          <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
+        </div>
+        <div class="mb-3">
+          <label for="telephone" class="form-label">Телефон</label>
+          <input type="text" class="form-control" id="telephone" name="telephone" th:value="${user.telephone}" required>
+        </div>
+        <div class="mb-3">
+          <label for="currentPassword" class="form-label">Текущий пароль</label>
+          <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+        </div>
+        <div class="mb-3">
+          <label for="newPassword" class="form-label">Новый пароль</label>
+          <input type="password" class="form-control" id="newPassword" name="newPassword">
+        </div>
+        <div class="mb-3">
+          <label for="confirmNewPassword" class="form-label">Подтвердите новый пароль</label>
+          <input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/smooth-scroll.js}"></script>
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/script_theme.js}"></script>
+</body>
+</html>
