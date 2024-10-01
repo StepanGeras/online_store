@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private PasswordResetTokenRepo passwordResetTokenRepo;
+    private final JavaMailSender mailSender;
+    private final PasswordResetTokenRepo passwordResetTokenRepo;
 
     @Value("${spring.mail.username}")
     private String email;
+
+    @Autowired
+    public EmailService(JavaMailSender mailSender, PasswordResetTokenRepo passwordResetTokenRepo) {
+        this.mailSender = mailSender;
+        this.passwordResetTokenRepo = passwordResetTokenRepo;
+    }
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();

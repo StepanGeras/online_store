@@ -25,20 +25,22 @@ import java.util.List;
 @RequestMapping
 public class AddProductController {
 
-    @Autowired
-    private CatalogService catalogService;
-
-    @Autowired
-    private AdditionService additionService;
-
-    @Autowired
-    private ProductService productService;
+    private final CatalogService catalogService;
+    private final AdditionService additionService;
+    private final ProductService productService;
 
     @Value("${upload.path}")
     private String uploadPath;
 
     @Value("${image.path}")
     private String imagePath;
+
+    @Autowired
+    public AddProductController(CatalogService catalogService, AdditionService additionService, ProductService productService) {
+        this.catalogService = catalogService;
+        this.additionService = additionService;
+        this.productService = productService;
+    }
 
     @GetMapping("/admin/catalog")
     public String addAdmin(Model model, @RequestParam(defaultValue = "1") int page) {

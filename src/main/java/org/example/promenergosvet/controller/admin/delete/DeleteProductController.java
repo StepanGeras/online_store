@@ -20,14 +20,16 @@ import java.util.List;
 @RequestMapping
 public class DeleteProductController {
 
-    @Autowired
-    private CatalogService catalogService;
+    private final CatalogService catalogService;
+    private final AdditionService additionService;
+    private final ProductService productService;
 
     @Autowired
-    private AdditionService additionService;
-
-    @Autowired
-    private ProductService productService;
+    public DeleteProductController(CatalogService catalogService, AdditionService additionService, ProductService productService) {
+        this.catalogService = catalogService;
+        this.additionService = additionService;
+        this.productService = productService;
+    }
 
     @GetMapping("/admin/delete/catalog")
     public String deleteAdmin(Model model, @RequestParam(defaultValue = "1") int page) {

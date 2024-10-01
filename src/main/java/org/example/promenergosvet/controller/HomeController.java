@@ -18,17 +18,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static org.example.promenergosvet.variables.Const.*;
+
 @Controller
 @RequestMapping("/")
 @AllArgsConstructor
 public class HomeController {
 
     private final HomeService homeService;
-
     private final AdditionService additionService;
-
     private final ProductService productService;
-
     private final CatalogService catalogService;
 
     @GetMapping("/")
@@ -38,7 +37,7 @@ public class HomeController {
         Page<Catalog> catalogPage = catalogService.getAllProduct(page - 1, 9, "name");
 
         model.addAttribute("page", catalogPage.getSize());
-        model.addAttribute("catalog", catalogPage);
+        model.addAttribute(CATALOG_STRING, catalogPage);
 
         return "home";
     }
@@ -49,9 +48,9 @@ public class HomeController {
         Page<Catalog> currentPage = catalogService.getAllProduct(page - 1, 16, "name");
 
         model.addAttribute("page", page);
-        model.addAttribute("productList", currentPage);
+        model.addAttribute(PRODUCT_LIST_STRING, currentPage);
         model.addAttribute("totalPages", currentPage.getTotalPages());
-        model.addAttribute("catalog", catalog);
+        model.addAttribute(CATALOG_STRING, catalog);
         return "product/catalog";
     }
 
@@ -70,8 +69,8 @@ public class HomeController {
 
         } else {
 
-            model.addAttribute("catalog", catalog);
-            model.addAttribute("addition", additions);
+            model.addAttribute(CATALOG_STRING, catalog);
+            model.addAttribute(ADDITION_STRING, additions);
 
             return "product/addition";
         }
@@ -97,11 +96,11 @@ public class HomeController {
 
         Page<Product> productPage = productService.getAllProductByAdditionId(page - 1, 16, "name", id);
 
-        model.addAttribute("addition", addition);
+        model.addAttribute(ADDITION_STRING, addition);
         model.addAttribute("page", page);
-        model.addAttribute("productList", productPage);
+        model.addAttribute(PRODUCT_LIST_STRING, productPage);
         model.addAttribute("totalPages", productPage.getTotalPages());
-        model.addAttribute("catalog", newProduct);
+        model.addAttribute(CATALOG_STRING, newProduct);
 
         return "product/product";
     }
@@ -113,8 +112,8 @@ public class HomeController {
                          @PathVariable String addition){
 
         model.addAttribute("product", productService.getProductById(id));
-        model.addAttribute("catalog", catalog);
-        model.addAttribute("addition", addition);
+        model.addAttribute(CATALOG_STRING, catalog);
+        model.addAttribute(ADDITION_STRING, addition);
         model.addAttribute("id", id);
 
         return "product/goods";
@@ -125,9 +124,9 @@ public class HomeController {
                          @RequestParam(name = "search") String search) {
         List<Product> productPage = productService.searchByNameOrText(search);
 
-        model.addAttribute("productList", productPage);
-        model.addAttribute("addition", null);
-        model.addAttribute("catalog", search);
+        model.addAttribute(PRODUCT_LIST_STRING, productPage);
+        model.addAttribute(ADDITION_STRING, null);
+        model.addAttribute(CATALOG_STRING, search);
 
         return "product/product";
 

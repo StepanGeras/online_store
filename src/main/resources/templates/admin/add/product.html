@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>Добавление товара</title>
+    <meta name="description" content="">
+
+    <title>ПромЭнергоСвет</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -22,28 +25,40 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Главная</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#about">О нас</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/catalog">Каталог</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#delivery">Доставка и оплата</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/#contacts">Контакты</a>
+                <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link" href="#contacts">Контакты</a>
                 </li>
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link" href="/user/logout">Выйти из профиля</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" href="/admin">Админ Панель</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                    <a class="nav-link" href="/user/page">Профиль пользователя</a>
+                </li>
+                <li class="nav-item" th:unless="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link" href="/user/login">Логин</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/basket">
@@ -95,25 +110,37 @@
                       </form>
                     </div>
                 </div>
-                <div class="col-lg-4 offset-lg-4 d-flex justify-content-end align-items-center">
-                    <a href="/basket" class="text-decoration-none text-dark">
-                        <i class="fas fa-shopping-cart fa-2x"></i>
-                    </a>
-                </div>
             </div>
         </div>
 </section>
 
 <section>
-    <div>
-        <form th:action="'/admin/catalog/' + ${catalog} + '/' + ${addition}" enctype="multipart/form-data" method="post">
-            <label>
-                <input type="text" id="name" name="name" placeholder="Название" required>
-                <input type="text" id="text" name="text" placeholder="Описание" required>
-                <input type="file" id="file" name="file" placeholder="Картинка" required>
-            </label>
-            <button class="btn item-btn btn-primary display-7"> Добавить </button>
-        </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="'/admin/catalog/' + ${catalog} + '/' + ${addition}" enctype="multipart/form-data" method="post">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Название</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="text" class="form-label">Описание</label>
+                                <input type="text" class="form-control" id="text" name="text" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="file" class="form-label">Картинка</label>
+                                <input type="file" class="form-control" id="file" name="file" required>
+                            </div>
+                            <button class="btn item-btn btn-primary display-7"> Добавить </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

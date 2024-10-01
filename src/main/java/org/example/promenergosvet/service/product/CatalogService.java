@@ -2,6 +2,7 @@ package org.example.promenergosvet.service.product;
 
 import org.example.promenergosvet.entity.product.Catalog;
 import org.example.promenergosvet.repo.product.CatalogRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ public class CatalogService {
 
     private final CatalogRepo catalogRepo;
 
+    @Autowired
     public CatalogService(CatalogRepo catalogRepo) {
         this.catalogRepo = catalogRepo;
     }

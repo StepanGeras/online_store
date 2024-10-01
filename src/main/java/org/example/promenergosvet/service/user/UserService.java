@@ -18,14 +18,16 @@ import java.util.Set;
 @Transactional
 public class UserService {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordResetTokenRepo passwordResetTokenRepo;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private PasswordResetTokenRepo passwordResetTokenRepo;
+    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder, PasswordResetTokenRepo passwordResetTokenRepo) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.passwordResetTokenRepo = passwordResetTokenRepo;
+    }
 
     public User findByUsername(String username) {
         return userRepo.findByUsername(username);
@@ -37,8 +39,8 @@ public class UserService {
 
     public void save(User user) {
         user.setRoles(Set.of(User.Role.ROLE_USER));
+        user.setEmail(user.getEmail().toLowerCase());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        user.setTelephone(passwordEncoder.encode(user.getTelephone()));
         userRepo.save(user);
     }
 

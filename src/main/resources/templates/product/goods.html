@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title th:text="${product.name}"></title>
+    <meta name="description" content="">
+
+    <title>ПромЭнергоСвет</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -22,31 +25,37 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Главная</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#about">О нас</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/catalog">Каталог</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#delivery">Доставка и оплата</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-none d-lg-block">
                     <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/#contacts">Контакты</a>
+                <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link" href="#contacts">Контакты</a>
                 </li>
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link" href="/user/logout">Выйти из профиля</a>
                 </li>
-                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="/user/page" class="nav-link">Добро пожаловать, <span th:text="${#authentication.name}">User</span>!</a>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" href="/admin">Админ Панель</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                    <a class="nav-link" href="/user/page">Профиль пользователя</a>
                 </li>
                 <li class="nav-item" th:unless="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link" href="/user/login">Логин</a>
@@ -119,7 +128,7 @@
         <div class="container mt-5">
             <div class="row align-items-center">
                 <div class="col-md-4">
-                    <img th:src="${product.image}" class="img-fluid">
+                    <img th:src="${product.image}" style="height: 100%">
                 </div>
                 <div class="col-md-8">
                     <div class="text-column">
@@ -143,93 +152,52 @@
     </div>
 </section>
 
-<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="social02-21">
-
+<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="contacts">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-12 content-head">
+            <div class="col-12 text-center">
                 <div class="mb-5">
-                    <h5 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-                        <strong>Контакты</strong></h5>
-
+                    <h5 class="mbr-section-title mbr-fonts-style mb-0 display-2">
+                        <strong>Контакты</strong>
+                    </h5>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-instagram socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>Instagram</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
-                        </h5>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <img src="/static/images/map.jpg" alt="Карта" class="img-fluid mb-4" style="max-width: 100%; height: auto;">
+                <div class="card-box mt-4">
+                    <h4><strong>Адрес</strong></h4>
+                    <h5>
+                        225404, Республика Беларусь,<br>
+                        Брестская обл., г. Барановичи,<br>
+                        ул. Чурилина, д.13Б/1
+                    </h5>
                 </div>
             </div>
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
+            <div class="col-md-6">
                 <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-twitch socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>Twitch</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
+                    <div class="card-box mt-4">
+                        <h4><strong>УНП</strong></h4>
+                        <h5>291419094;</h5>
+                        <h5>Р/счёт: BY27POIS30120039658101933001</h5>
+                        <h5>в ОАО «Паритетбанк» г. Минск,</h5>
+                        <h5>S.W.I.F.T.– POISBY2X</h5>
+                    </div>
+                    <div class="card-box mt-4">
+                        <h4><strong>Телефон и факс</strong></h4>
+                        <h5>
+                            <span>тел./факс: +375-163-65-05-05</span><br>
+                            <span>тел.: +375-163-40-22-22</span><br>
+                            <span>А1: +375-29-639-55-18, +375-29-681-37-43</span><br>
+                            <span>МТС: +375-29-801-90-32, +375-29-520-06-45</span>
                         </h5>
                     </div>
-                </div>
-            </div>
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-twitter socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>Twitter</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-youtube socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>YouTube</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-tiktok socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>TikTol</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
-                        </h5>
-                    </div>
-                </div>
-            </div>
-            <div class="item features-without-image col-12 col-md-6 col-lg-4">
-                <div class="item-wrapper">
-                    <span class="mbr-iconfont m-auto socicon-facebook socicon"></span>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style mb-1 display-7">
-                            <strong>Facebook</strong>
-                        </h4>
-                        <h5 class="card-text mbr-fonts-style display-7">
-                            Lorem ipsum dolor sit amet.
+                    <div class="card-box mt-4">
+                        <h4><strong>Email</strong></h4>
+                        <h5>
+                            <a href="mailto:alex.by75@bk.ru">alex.by75@bk.ru</a>,<br>
+                            <a href="mailto:promenergosvet@mail.ru">promenergosvet@mail.ru</a>
                         </h5>
                     </div>
                 </div>

@@ -14,11 +14,14 @@ import java.util.Set;
 @Service
 public class BasketService {
 
-    @Autowired
-    private BasketRepo basketRepo;
+    private final BasketRepo basketRepo;
+    private final BasketItemRepo basketItemRepo;
 
     @Autowired
-    private BasketItemRepo basketItemRepo;
+    public BasketService(BasketRepo basketRepo, BasketItemRepo basketItemRepo) {
+        this.basketRepo = basketRepo;
+        this.basketItemRepo = basketItemRepo;
+    }
 
     public Basket getBasketByUserId(Long userId) {
         return basketRepo.findByUserId(userId);

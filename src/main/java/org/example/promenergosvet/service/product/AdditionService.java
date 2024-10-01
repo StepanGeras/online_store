@@ -2,6 +2,7 @@ package org.example.promenergosvet.service.product;
 
 import org.example.promenergosvet.entity.product.Addition;
 import org.example.promenergosvet.repo.product.AdditionRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,6 +12,7 @@ public class AdditionService  {
 
     private final AdditionRepo additionRepo;
 
+    @Autowired
     public AdditionService(AdditionRepo additionRepo) {
         this.additionRepo = additionRepo;
     }

@@ -17,36 +17,37 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
+import static org.example.promenergosvet.variables.Const.BASKET_STRING;
 
 @Controller
 public class BasketController {
 
-    @Autowired
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
+    private final ProductService productService;
+    private final BasketService basketService;
+    private final UserService userService;
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private BasketService basketService;
-
-    @Autowired
-    private UserService userService;
+    public BasketController(HttpSession httpSession, ProductService productService, BasketService basketService, UserService userService) {
+        this.httpSession = httpSession;
+        this.productService = productService;
+        this.basketService = basketService;
+        this.userService = userService;
+    }
 
     @GetMapping("/basket")
     public String basket(Model model) {
 
-        Basket basket = (Basket) httpSession.getAttribute("basket");
+        Basket basket = (Basket) httpSession.getAttribute(BASKET_STRING);
         if (basket == null) {
             basket = new Basket();
         }
 
-        model.addAttribute("basket",  basket.getItems());
+        model.addAttribute(BASKET_STRING,  basket.getItems());
 
         return "basket/basket";
     }
@@ -56,7 +57,7 @@ public class BasketController {
                             @RequestParam (name = "addition") String addition,
                             @RequestParam (name = "id") Long id) {
 
-        Basket basket = (Basket) httpSession.getAttribute("basket");
+        Basket basket = (Basket) httpSession.getAttribute(BASKET_STRING);
         if (basket == null) {
             basket = new Basket();
         }
@@ -64,7 +65,7 @@ public class BasketController {
         Product product = productService.getProductById(id);
         basket.addItem(product);
 
-        httpSession.setAttribute("basket", basket);
+        httpSession.setAttribute(BASKET_STRING, basket);
 
         if (addition.isEmpty()) {
             return "redirect:/catalog";
@@ -79,10 +80,10 @@ public class BasketController {
     @PostMapping("/basket/delete")
     public String deleteBasket(@RequestParam (name = "productId") Long id) {
 
-        Basket basket = (Basket) httpSession.getAttribute("basket");
+        Basket basket = (Basket) httpSession.getAttribute(BASKET_STRING);
         basket.removeItem(id);
 
-        httpSession.setAttribute("basket", basket);
+        httpSession.setAttribute(BASKET_STRING, basket);
 
         return "redirect:/basket";
 
@@ -98,7 +99,7 @@ public class BasketController {
 
         User user = userService.findByUsername(username);
 
-        Basket basket = (Basket) httpSession.getAttribute("basket");
+        Basket basket = (Basket) httpSession.getAttribute(BASKET_STRING);
 
         List<Basket> basketList = basketService.getAllBasketByUserId(user.getId());
 
@@ -125,7 +126,7 @@ public class BasketController {
 
         basketService.save(basket);
 
-        httpSession.setAttribute("basket", new Basket());
+        httpSession.setAttribute(BASKET_STRING, new Basket());
 
         return "redirect:/";
     }

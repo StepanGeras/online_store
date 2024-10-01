@@ -23,21 +23,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static org.example.promenergosvet.variables.Const.ERROR_STRING;
+import static org.example.promenergosvet.variables.Const.USER_SETTING_STRING;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final BasketService basketService;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private BasketService basketService;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserController(UserService userService, BasketService basketService, EmailService emailService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.basketService = basketService;
+        this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     private boolean isTokenExpired(PasswordResetToken token) {
         return token.getExpiryDate().before(new Date());
@@ -74,7 +78,7 @@ public class UserController {
     public String processForgotPassword(@RequestParam("email") String email, Model model) {
         User user = userService.findByEmail(email);
         if (user == null) {
-            model.addAttribute("error", "Пользователь не найден");
+            model.addAttribute(ERROR_STRING, "Пользователь не найден");
             return "user/forgot-password";
         }
 
@@ -92,11 +96,10 @@ public class UserController {
     public String showResetPasswordForm(@PathVariable String token, Model model) {
         PasswordResetToken resetToken = emailService.findByToken(token);
         if (resetToken == null || isTokenExpired(resetToken)) {
-            model.addAttribute("error", "Недействительный или просроченный токен.");
-            return "user/reset-password";
+            model.addAttribute(ERROR_STRING, "Недействительный или просроченный токен.");
+        } else {
+            model.addAttribute("token", token);
         }
-
-        model.addAttribute("token", token);
         return "user/reset-password";
     }
 
@@ -104,7 +107,7 @@ public class UserController {
     public String processResetPassword(@RequestParam("token") String token, @RequestParam("password") String newPassword, Model model) {
         PasswordResetToken resetToken = emailService.findByToken(token);
         if (resetToken == null || isTokenExpired(resetToken)) {
-            model.addAttribute("error", "Недействительный или просроченный токен.");
+            model.addAttribute(ERROR_STRING, "Недействительный или просроченный токен.");
             return "user/reset-password";
         }
 
@@ -158,7 +161,7 @@ public class UserController {
         User user = userService.findByUsername(username);
 
         model.addAttribute("user", user);
-        return "user/setting";
+        return USER_SETTING_STRING;
     }
 
     @PostMapping("/setting")
@@ -175,7 +178,7 @@ public class UserController {
         if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
             model.addAttribute("error", "Неверный текущий пароль");
             model.addAttribute("user", currentUser);
-            return "user/setting";
+            return USER_SETTING_STRING;
         }
         currentUser.setName(name);
         currentUser.setUsername(username);
@@ -185,7 +188,7 @@ public class UserController {
             if (!newPassword.equals(confirmNewPassword)) {
                 model.addAttribute("error", "Новый пароль и его подтверждение не совпадают");
                 model.addAttribute("user", currentUser);
-                return "user/setting";
+                return USER_SETTING_STRING;
             }
             currentUser.setPassword(newPassword);
         }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,31 +25,37 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 	<div class="container-fluid">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/">Главная</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item d-none d-lg-block">
 					<a class="nav-link" href="#about">О нас</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/catalog">Каталог</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item d-none d-lg-block">
 					<a class="nav-link" href="#delivery">Доставка и оплата</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item d-none d-lg-block">
 					<a class="nav-link" href="#guarantee">Гарантии и возврат</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item d-none d-lg-block">
 					<a class="nav-link" href="#contacts">Контакты</a>
 				</li>
 				<li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
 					<a class="nav-link" href="/user/logout">Выйти из профиля</a>
 				</li>
-				<li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-					<a href="/user/page" class="nav-link">Добро пожаловать, <span th:text="${#authentication.name}">User</span>!</a>
+				<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+					<a class="nav-link" href="/admin">Админ Панель</a>
+				</li>
+				<li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+					<a class="nav-link" href="/user/page">Профиль пользователя</a>
 				</li>
 				<li class="nav-item" th:unless="${#authorization.expression('isAuthenticated()')}">
 					<a class="nav-link" href="/user/login">Логин</a>
@@ -210,218 +217,93 @@
 </section>
 
 <section data-bs-version="5.1" class="features037 cid-ub89at04ui" id="delivery">
-
-
-
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-lg-4">
-				<div class="col-12 col-md-12">
-					<h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2"><strong>Доставка и оплата</strong></h5>
+			<div class="col-lg-4 text-center">
+				<div class="col-12 col-md-12 mb-5">
+					<h5 class="mbr-section-title mbr-fonts-style mt-0 mb-4 display-2">
+						<strong>Доставка и оплата</strong>
+					</h5>
 					<h6 class="mbr-section-subtitle mbr-fonts-style mt-0 mb-4 display-7">
-						With a spirit of innovation, we navigate uncharted territories, exploring new ideas, technologies, and approaches.</h6>
-
+						Доставка осуществляется по всей Республике Беларусь.<br>
+						<br>
+						Оплата безналичный расчет.
+					</h6>
 				</div>
-			</div>
-
-			<div class="col-lg-8 side-features">
-				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb active">
-					<div class="item-wrapper">
-						<div class="item-content align-left">
-
-							<h5 class="card-title mbr-fonts-style display-5">
-								<strong>Innovation</strong>
-							</h5>
-							<p class="card-text mbr-fonts-style display-7">
-								Discover the future of creativity through our solutions. We pioneer cutting-edge
-								techniques,
-								pushing boundaries to redefine creative possibilities.</p>
-
-						</div>
-
-					</div>
-				</div>
-				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
-					<div class="item-wrapper">
-						<div class="item-content align-left">
-
-							<h5 class="card-title mbr-fonts-style display-5">
-								<strong>Support</strong>
-							</h5>
-							<p class="card-text mbr-fonts-style display-7">
-								Our support system ensures you're never alone on your journey, offering guidance,
-								resources,
-								and solutions when you need them.</p>
-
-						</div>
-
-					</div>
-				</div>
-				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
-					<div class="item-wrapper">
-						<div class="item-content align-left">
-
-							<h5 class="card-title mbr-fonts-style display-5">
-								<strong>Quality</strong>
-							</h5>
-							<p class="card-text mbr-fonts-style display-7">
-							Elevate your standards with our commitment to uncompromising quality. Each creation embodies precision, durability, and timeless excellence.</p>
-
-
-						</div>
-
-					</div>
-				</div>
-				<div class="item features-without-image col-12 col-md-12 col-lg-6 item-mb">
-					<div class="item-wrapper">
-						<div class="item-content align-left">
-
-							<h5 class="card-title mbr-fonts-style display-5">
-								<strong>Creativity</strong>
-							</h5>
-							<p class="card-text mbr-fonts-style display-7">
-								Our products are designed to spark and amplify your imagination, empowering you to
-								express
-								your unique artistic vision.</p>
-
-
-						</div>
-
-					</div>
-				</div>
-
 			</div>
 		</div>
 	</div>
 </section>
 
 <section data-bs-version="5.1" class="features031 cid-ub8bxjxswK" id="guarantee">
-
-
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12 content-head mb-5">
-                <h1 class="mbr-section-title mbr-fonts-style mb-0 display-2">
-                    <strong>Гарантии и возврат</strong><strong><br></strong></h1>
-
-            </div>
-        </div>
-        <div class="row justify-content-center  blockContent">
-            <div class="col-12 col-lg">
-                <div class="item-wrapper align-left">
-                    <div class="counter-container mbr-text mbr-fonts-style display-7">
-                        <ul>
-                            <li><strong>Composition. </strong>A harmonious arrangement of elements, like notes in a symphony,
-                                creating a
-                                balanced and expressive piece of art.</li>
-                            <li><strong>Performance.</strong> An engaging and dynamic display of talent, emotion, or skill,
-                                captivating
-                                audiences and evoking powerful reactions.</li>
-                            <li><strong>Presentation.</strong> A structured and compelling delivery of information or ideas,
-                                effectively
-                                communicating and engaging with the audience.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6">
-                <div class="image-wrapper">
-                    <img class="w-100" src="../static/images/gallery01.jpg" alt="Mobirise Website Builder">
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="contacts">
-
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-12 content-head">
-				<div class="mb-5">
-					<h5 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-						<strong>Контакты</strong></h5>
-
+			<div class="col-md-12 content-head mb-5 text-center">
+				<h1 class="mbr-section-title mbr-fonts-style mb-0 display-2">
+					<strong>Гарантии и возврат</strong>
+				</h1>
+			</div>
+		</div>
+		<div class="row justify-content-center blockContent">
+			<div class="col-12 col-lg-6">
+				<div class="item-wrapper align-left">
+					<div class="counter-container mbr-text mbr-fonts-style display-7">
+						<ul>
+							<li><strong>Гарантия на каждый товар:</strong> Уточняйте у операторов.</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
-				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-instagram socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>Instagram</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
-						</h5>
-					</div>
+	</div>
+</section>
+
+<section data-bs-version="5.1" class="social02 cid-ub8b7s9i3G" id="contacts">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<div class="mb-5">
+					<h5 class="mbr-section-title mbr-fonts-style mb-0 display-2">
+						<strong>Контакты</strong>
+					</h5>
 				</div>
 			</div>
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
-				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-twitch socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>Twitch</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
-						</h5>
-					</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-6 text-center">
+				<img src="/static/images/map.jpg" alt="Карта" class="img-fluid mb-4" style="max-width: 100%; height: auto;">
+				<div class="card-box mt-4">
+					<h4><strong>Адрес</strong></h4>
+					<h5>
+						225404, Республика Беларусь,<br>
+						Брестская обл., г. Барановичи,<br>
+						ул. Чурилина, д.13Б/1
+					</h5>
 				</div>
 			</div>
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
+			<div class="col-md-6">
 				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-twitter socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>Twitter</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
+					<div class="card-box mt-4">
+						<h4><strong>УНП</strong></h4>
+						<h5>291419094;</h5>
+						<h5>Р/счёт: BY27POIS30120039658101933001</h5>
+						<h5>в ОАО «Паритетбанк» г. Минск,</h5>
+						<h5>S.W.I.F.T.– POISBY2X</h5>
+					</div>
+					<div class="card-box mt-4">
+						<h4><strong>Телефон и факс</strong></h4>
+						<h5>
+							<span>тел./факс: +375-163-65-05-05</span><br>
+							<span>тел.: +375-163-40-22-22</span><br>
+							<span>А1: +375-29-639-55-18, +375-29-681-37-43</span><br>
+							<span>МТС: +375-29-801-90-32, +375-29-520-06-45</span>
 						</h5>
 					</div>
-				</div>
-			</div>
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
-				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-youtube socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>YouTube</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
-						</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
-				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-tiktok socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>TikTol</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
-						</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item features-without-image col-12 col-md-6 col-lg-4">
-				<div class="item-wrapper">
-					<span class="mbr-iconfont m-auto socicon-facebook socicon"></span>
-					<div class="card-box">
-						<h4 class="card-title mbr-fonts-style mb-1 display-7">
-							<strong>Facebook</strong>
-						</h4>
-						<h5 class="card-text mbr-fonts-style display-7">
-							Lorem ipsum dolor sit amet.
+					<div class="card-box mt-4">
+						<h4><strong>Email</strong></h4>
+						<h5>
+							<a href="mailto:alex.by75@bk.ru">alex.by75@bk.ru</a>,<br>
+							<a href="mailto:promenergosvet@mail.ru">promenergosvet@mail.ru</a>
 						</h5>
 					</div>
 				</div>
@@ -429,6 +311,8 @@
 		</div>
 	</div>
 </section>
+
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/js/smooth-scroll.js}"></script>
 <script th:src="@{/js/index.js}"></script>

@@ -16,11 +16,14 @@ import java.util.stream.Collectors;
 @RequestMapping()
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final BasketService basketService;
 
     @Autowired
-    private BasketService basketService;
+    public AdminController(UserService userService, BasketService basketService) {
+        this.userService = userService;
+        this.basketService = basketService;
+    }
 
     @GetMapping("/admin")
     public String admin(Model model) {

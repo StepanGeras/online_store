@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-  <title>Пользователи</title>
+  <meta name="description" content="">
+
+  <title>ПромЭнергоСвет</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}">
   <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css}">
@@ -22,28 +25,40 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="/">Главная</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="/#about">О нас</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/catalog">Каталог</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="/#delivery">Доставка и оплата</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="/#guarantee">Гарантии и возврат</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/#contacts">Контакты</a>
+        <li class="nav-item d-none d-lg-block">
+          <a class="nav-link" href="#contacts">Контакты</a>
         </li>
         <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
           <a class="nav-link" href="/user/logout">Выйти из профиля</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+          <a class="nav-link" href="/admin">Админ Панель</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+          <a class="nav-link" href="/user/page">Профиль пользователя</a>
+        </li>
+        <li class="nav-item" th:unless="${#authorization.expression('isAuthenticated()')}">
+          <a class="nav-link" href="/user/login">Логин</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/basket">
@@ -108,7 +123,8 @@
         <div class="item-wrapper">
           <div class="item-content">
             <h5 class="item-title mbr-fonts-style display-5" style="font-size: x-large;">
-              <strong th:text="${user.username}"></strong>
+              <strong th:text="${user.name}"></strong>
+              <br>
               <strong th:text="${user.telephone}"></strong>
             </h5>
             <div class="mbr-section-btn item-footer">

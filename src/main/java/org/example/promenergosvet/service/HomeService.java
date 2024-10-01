@@ -12,6 +12,7 @@ public class HomeService {
 
     private final HomeRepo homeRepo;
 
+    @Autowired
     public HomeService(HomeRepo homeRepo) {
         this.homeRepo = homeRepo;
     }
